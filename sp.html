@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Golden Pixie Dust Cursor</title>
+
+    <style>
+        body {
+            margin: 0;
+            background: #0f0f1a;
+            overflow: hidden;
+            cursor: none;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        .title {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 36px;
+            font-family: sans-serif;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="title">✨ Golden Pixie Dust Cursor ✨</div>
+
+    <canvas id="canvas"></canvas>
+
+    <script>
+
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particles = [];
+        let mouse = { x: 0, y: 0 };
+
+        document.addEventListener("mousemove", e => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+
+            /* create particles */
+
+            for (let i = 0; i < 8; i++) {
+                particles.push({
+                    x: mouse.x,
+                    y: mouse.y,
+                    vx: (Math.random() - 0.5) * 2,
+                    vy: (Math.random() - 0.5) * 2,
+                    size: Math.random() * 2 + 1,
+                    life: 60
+                });
+            }
+
+        });
+
+
+        function animate() {
+
+            ctx.fillStyle = "rgba(15,15,26,0.15)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = particles.length - 1; i >= 0; i--) {
+
+                let p = particles[i];
+
+                p.x += p.vx;
+                p.y += p.vy;
+                p.life--;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+
+                /* golden glow */
+
+                let gradient = ctx.createRadialGradient(
+                    p.x, p.y, 0,
+                    p.x, p.y, p.size * 4
+                );
+
+                gradient.addColorStop(0, "#fff6b0");
+                gradient.addColorStop(0.4, "#ffd700");
+                gradient.addColorStop(1, "rgba(255,215,0,0)");
+
+                ctx.fillStyle = gradient;
+                ctx.fill();
+
+                if (p.life <= 0) {
+                    particles.splice(i, 1);
+                }
+
+            }
+
+            requestAnimationFrame(animate);
+
+        }
+
+        animate();
+
+    </script>
+
+</body>
+
+</html>
