@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Magnetic Cursor Effect</title>
+
+<style>
+
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#0f0f1a;
+  font-family:sans-serif;
+  cursor:none;
+}
+
+/* custom cursor */
+
+.cursor{
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  position:fixed;
+  background:white;
+  pointer-events:none;
+  transform:translate(-50%,-50%);
+  transition:transform 0.15s ease-out;
+  mix-blend-mode:difference;
+}
+
+/* buttons */
+
+.container{
+  display:flex;
+  gap:40px;
+}
+
+.magnetic{
+  padding:20px 40px;
+  font-size:18px;
+  border-radius:50px;
+  border:none;
+  background:#ff4ecd;
+  color:white;
+  transition:transform 0.2s ease;
+  position:relative;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="cursor"></div>
+
+<div class="container">
+<button class="magnetic">Button 1</button>
+<button class="magnetic">Button 2</button>
+<button class="magnetic">Button 3</button>
+</div>
+
+<script>
+
+const cursor = document.querySelector(".cursor");
+const magnets = document.querySelectorAll(".magnetic");
+
+/* move custom cursor */
+
+document.addEventListener("mousemove",(e)=>{
+
+cursor.style.left = e.clientX + "px";
+cursor.style.top = e.clientY + "px";
+
+});
+
+
+/* magnetic effect */
+
+magnets.forEach(btn=>{
+
+btn.addEventListener("mousemove",(e)=>{
+
+const rect = btn.getBoundingClientRect();
+
+const x = e.clientX - rect.left - rect.width/2;
+const y = e.clientY - rect.top - rect.height/2;
+
+btn.style.transform = `translate(${x*0.3}px, ${y*0.3}px)`;
+
+cursor.style.transform="translate(-50%,-50%) scale(2)";
+
+});
+
+btn.addEventListener("mouseleave",()=>{
+
+btn.style.transform="translate(0,0)";
+cursor.style.transform="translate(-50%,-50%) scale(1)";
+
+});
+
+});
+
+</script>
+
+</body>
+</html>

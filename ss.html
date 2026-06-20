@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cursor Spotlight Effect</title>
+
+    <style>
+        body {
+            margin: 0;
+            height: 200vh;
+            background: url("https://images.unsplash.com/photo-1519681393784-d120267933ba") center/cover no-repeat;
+            font-family: sans-serif;
+        }
+
+        /* dark overlay */
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.653);
+            pointer-events: none;
+
+            /* spotlight mask */
+            mask-image: radial-gradient(circle 120px at 50% 50%, transparent 0%, black 100%);
+            -webkit-mask-image: radial-gradient(circle 120px at 50% 50%, transparent 0%, black 100%);
+        }
+
+        .text {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 40px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="text">
+        Move your mouse to reveal the light
+    </div>
+
+    <div class="overlay"></div>
+
+    <script>
+
+        const overlay = document.querySelector(".overlay");
+
+        document.addEventListener("mousemove", (e) => {
+
+            const x = e.clientX;
+            const y = e.clientY;
+
+            // overlay.style.maskImage =
+            //     `radial-gradient(circle 50px at ${x}px ${y}px, transparent 0%, black 100%)`;
+
+            // overlay.style.webkitMaskImage =
+            //     `radial-gradient(circle 50px at ${x}px ${y}px, transparent 0%, black 100%)`;
+            overlay.style.maskImage =
+                `radial-gradient(circle at ${x}px ${y}px, transparent 75px, black 75px)`;
+
+            overlay.style.webkitMaskImage =
+                `radial-gradient(circle at ${x}px ${y}px, transparent 75px, black 75px)`;
+        });
+
+    </script>
+
+</body>
+
+</html>
